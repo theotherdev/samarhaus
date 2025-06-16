@@ -1,0 +1,357 @@
+/* Original component-slideshow.css styles are below, new hero styles are at the top */
+
+/* Hero Slideshow Specific Styles */
+:root {
+  --hero-text-color: #ffffff;
+  --hero-heading-font-size: 48px; /* Adjust as needed */
+  --hero-subheading-font-size: 18px; /* Adjust as needed */
+  --hero-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --hero-dots-inactive-color: rgba(255, 255, 255, 0.5);
+  --hero-dots-active-color: rgba(255, 255, 255, 1);
+  --hero-dots-size: 8px;
+  --hero-dots-bottom-position: 30px; /* Increased from 20px */
+}
+
+/* Full-Screen Height Adjustments */
+.slideshow.banner--large {
+  min-height: 100vh;
+  /* Consider header height: min-height: calc(100vh - var(--header-height, 0px)); */
+  /* The 'banner' class might already have some height properties, ensure this overrides or complements */
+}
+
+.slideshow.banner--large .slideshow__slide {
+  min-height: 100vh; /* Ensure slides also try to fill this */
+  /* Consider header height: min-height: calc(100vh - var(--header-height, 0px)); */
+  display: flex; /* Needed for vertical alignment of content if not already there */
+  align-items: center; /* Vertically center content within slide */
+  justify-content: center; /* Horizontally center content (if box_align is center) */
+}
+
+.slideshow.banner--large .banner__media {
+  position: absolute; /* Take media out of flow to allow text overlay directly on slide */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Behind the content */
+}
+
+.slideshow.banner--large .banner__media > img,
+.slideshow.banner--large .banner__media > .placeholder-svg {
+  height: 100%;
+  width: 100%; /* Ensure image covers the full slide */
+  object-fit: cover;
+}
+
+.slideshow.banner--large .slideshow__text-wrapper {
+  position: relative; /* Ensure text wrapper is above media */
+  z-index: 2;
+  width: 100%; /* Allow text wrapper to span width for alignment */
+  /* padding: 20px; /* Add some padding around text content */
+   /* background-color: rgba(0,0,0,0.3); /* Optional: slight dark overlay for text readability */
+}
+
+.slideshow.banner--large .banner__box {
+    background-color: transparent; /* Remove default box background if text_box_show is false */
+    box-shadow: none; /* Remove default box shadow */
+    /* Color scheme classes will still apply if show_text_box is true */
+}
+
+/* Overlay Text Styling */
+.slideshow.banner--large .banner__heading {
+  color: var(--hero-text-color);
+  font-family: var(--hero-font-family);
+  font-size: var(--hero-heading-font-size); /* Will be overridden by H0/HXL etc. from base.css, but good fallback */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Basic text shadow for readability */
+  opacity: 0; /* Initial state for animation */
+}
+
+.slideshow.banner--large .banner__text { /* Subheading */
+  color: var(--hero-text-color);
+  font-family: var(--hero-font-family);
+  font-size: var(--hero-subheading-font-size);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  opacity: 0; /* Initial state for animation */
+  margin-top: 15px; /* Space between heading and subheading */
+}
+
+.slideshow.banner--large .banner__buttons {
+  opacity: 0; /* Initial state for animation */
+  margin-top: 25px; /* Space above buttons */
+}
+
+/* Text Animation */
+.slideshow__slide.is-active .banner__heading {
+  animation: heroFadeInUp 0.8s ease-out 0.3s forwards;
+}
+
+.slideshow__slide.is-active .banner__text {
+  animation: heroFadeInUp 0.8s ease-out 0.5s forwards;
+}
+
+.slideshow__slide.is-active .banner__buttons {
+  animation: heroFadeInUp 0.8s ease-out 0.7s forwards;
+}
+
+@keyframes heroFadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Navigation Dots Styling */
+.slideshow__controls .slider-counter--dots {
+  position: absolute;
+  bottom: var(--hero-dots-bottom-position);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3; /* Above media and text wrapper background */
+}
+
+.slideshow__controls .slider-counter__link--dots .dot {
+  width: var(--hero-dots-size);
+  height: var(--hero-dots-size);
+  border-radius: 50%;
+  background-color: var(--hero-dots-inactive-color);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin: 0 5px; /* Spacing between dots */
+}
+
+.slideshow__controls .slider-counter__link--dots.is-active .dot {
+  background-color: var(--hero-dots-active-color);
+  transform: scale(1.2);
+}
+
+/* Hide Arrows */
+.slideshow__controls .slider-button--prev,
+.slideshow__controls .slider-button--next {
+  display: none;
+}
+
+/* Hide autoplay button if it exists and not desired */
+.slideshow__autoplay {
+    display: none !important; /* Important to override existing styles if they are very specific */
+}
+
+
+/* --- Original component-slideshow.css content below --- */
+/* Ensure it does not conflict with the hero styles above. */
+/* Some rules might need to be commented out or adjusted if they override hero specifics. */
+
+slideshow-component {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+slideshow-component .slideshow.banner {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin: 0;
+  gap: 0;
+  overflow-y: hidden; /* Keep this to prevent vertical scrollbars on slides */
+}
+
+.slideshow__slide {
+  padding: 0;
+  position: relative;
+  display: flex; /* This might be overridden by hero styles, check impact */
+  flex-direction: column; /* This might be overridden by hero styles, check impact */
+  visibility: visible; /* Keep this */
+}
+
+/* Placeholder styles might not be relevant for full-screen hero with actual images */
+/*
+@media screen and (max-width: 749px) {
+  .slideshow--placeholder.banner--mobile-bottom.banner--adapt_image .slideshow__media,
+  .slideshow--placeholder.banner--adapt_image:not(.banner--mobile-bottom) {
+    height: 28rem;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .slideshow--placeholder.banner--adapt_image {
+    height: 56rem;
+  }
+}
+*/
+
+.slideshow__text.banner__box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 54.5rem; /* This max-width might be too restrictive for hero text */
+                      /* Consider removing or increasing for hero-slideshow context */
+}
+
+.slideshow__text > * {
+  max-width: 100%;
+}
+
+@media screen and (max-width: 749px) {
+  slideshow-component.page-width .slideshow__text {
+    /* These borders might not be desired for hero text overlays */
+    /* border-right: var(--text-boxes-border-width) solid rgba(var(--color-foreground), var(--text-boxes-border-opacity)); */
+    /* border-left: var(--text-boxes-border-width) solid rgba(var(--color-foreground), var(--text-boxes-border-opacity)); */
+  }
+
+  .banner--mobile-bottom .slideshow__text.banner__box {
+    max-width: 100%;
+  }
+
+  .banner--mobile-bottom .slideshow__text-wrapper {
+    flex-grow: 1;
+  }
+
+  .banner--mobile-bottom .slideshow__text.banner__box {
+    height: 100%;
+  }
+
+  .banner--mobile-bottom .slideshow__text .button {
+    flex-grow: 0;
+  }
+
+  .slideshow__text.slideshow__text-mobile--left {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .slideshow__text.slideshow__text-mobile--right {
+    align-items: flex-end;
+    text-align: right;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .slideshow__text.slideshow__text--left {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .slideshow__text.slideshow__text--right {
+    align-items: flex-end;
+    text-align: right;
+  }
+}
+
+/* This rule might conflict with absolute positioning of banner__media in hero */
+/*
+.slideshow:not(.banner--mobile-bottom) .slideshow__text-wrapper {
+  height: 100%;
+}
+*/
+
+@media screen and (min-width: 750px) {
+  .slideshow__text-wrapper.banner__content {
+    /* height: 100%; */ /* Already handled by hero styles for slide height */
+    padding: 3rem; /* Reduced padding from 5rem for hero text, adjust as needed */
+  }
+}
+
+.slideshow__controls {
+  /* border: 0.1rem solid rgba(var(--color-foreground), 0.08); */ /* Border removed for hero dots */
+}
+
+.slideshow__controls--top {
+  order: 2; /* This is for original slideshow, dots are positioned absolutely at bottom for hero */
+  z-index: 1;
+  /* position: relative; */ /* Ensure it doesn't conflict with dot positioning */
+}
+
+@media screen and (max-width: 749px) {
+  .slideshow__controls--border-radius-mobile {
+    /* border-bottom-right-radius: var(--text-boxes-radius); */ /* Not relevant for hero dots */
+    /* border-bottom-left-radius: var(--text-boxes-radius); */
+  }
+}
+
+/*
+.spaced-section--full-width:last-child slideshow-component:not(.page-width) .slideshow__controls {
+  border-bottom: none;
+}
+*/
+
+@media screen and (min-width: 750px) {
+  .slideshow__controls {
+    /* position: relative; */ /* Original style, dots are absolute for hero */
+  }
+}
+
+/*
+slideshow-component:not(.page-width) .slider-buttons {
+  border-right: 0;
+  border-left: 0;
+}
+*/
+
+.slideshow__control-wrapper {
+  display: flex; /* This is for the dots/numbers container if not positioned absolutely */
+  justify-content: center; /* Center dots if they are in this wrapper */
+}
+
+/* Autoplay button is hidden by hero styles, so these are mostly not needed */
+/*
+.slideshow__autoplay {
+  position: absolute;
+  right: 0;
+  border-left: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 749px) {
+  slideshow-component.page-width .slideshow__autoplay {
+    right: 1.5rem;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .slideshow__autoplay.slider-button {
+    position: inherit;
+    margin-left: 0.6rem;
+    padding: 0 0 0 0.6rem;
+    border-left: 0.1rem solid rgba(var(--color-foreground), 0.08);
+  }
+}
+
+.slideshow__autoplay .icon.icon-play,
+.slideshow__autoplay .icon.icon-pause {
+  display: block;
+  position: absolute;
+  opacity: 1;
+  transform: scale(1);
+  transition: transform 150ms ease, opacity 150ms ease;
+  width: 0.8rem;
+  height: 1.2rem;
+}
+
+.slideshow__autoplay .icon.icon-play {
+  height: 1rem;
+}
+
+.slideshow__autoplay path {
+  fill: rgba(var(--color-foreground), 0.75);
+}
+
+.slideshow__autoplay:hover path {
+  fill: rgb(var(--color-foreground));
+}
+
+@media screen and (forced-colors: active) {
+  .slideshow__autoplay path,
+  .slideshow__autoplay:hover path {
+    fill: CanvasText;
+  }
+}
+
+.slideshow__autoplay:hover .svg-wrapper {
+  transform: scale(1.1);
+}
+
+.slideshow__autoplay--paused .icon-pause,
+.slideshow__autoplay:not(.slideshow__autoplay--paused) .icon-play {
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(0.8);
+}
+*/
