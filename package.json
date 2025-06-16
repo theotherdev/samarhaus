@@ -1,0 +1,13 @@
+{
+  "name": "samerhaus",
+  "type": "module",
+  "scripts": {
+    "dev": "shopify theme dev --store=$(cat .STORE_URL.txt)"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
