@@ -1,0 +1,170 @@
+/* Custom header styles */
+
+:root { /* Define variables globally or scope to .header-custom if preferred */
+  --header-nav-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --header-nav-font-size: 14px; /* Adjusted from 16px as aakam appears to have smaller/denser nav */
+  --header-nav-font-weight: 500; /* Slightly bolder */
+  --header-nav-link-color: #333333;
+  --header-nav-link-hover-color: #000000;
+  --header-nav-letter-spacing: 0.5px;
+  --header-icon-size: 20px; /* For search icon */
+  --header-padding-vertical: 15px; /* Example, adjust as needed */
+  --header-padding-horizontal: 25px; /* Example, adjust as needed */
+  --header-nav-item-spacing: 25px; /* Spacing between nav items */
+  --header-icon-spacing: 20px; /* Spacing between right-side icons */
+}
+
+/* Styles for the sticky wrapper */
+sticky-header.shopify-section-header {
+  display: block;
+}
+
+.shopify-section-header-sticky {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 4;
+  background-color: #fff;
+}
+
+.shopify-section-header.scrolled-past-header .header-custom {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Main header container */
+.header-custom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--header-padding-vertical) var(--header-padding-horizontal);
+  background-color: #fff;
+}
+
+/* Logo */
+.header-custom__logo {
+  flex-grow: 0;
+  flex-shrink: 0; /* Prevent logo from shrinking if space is tight */
+}
+
+/* Navigation Menu */
+.header-custom__nav {
+  flex-grow: 1;
+  text-align: center; /* Helps center the inline-block ul */
+}
+
+.header-custom__nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: inline-block; /* Allows centering via text-align on parent */
+}
+
+.header-custom__nav li {
+  display: inline-block;
+  margin-right: var(--header-nav-item-spacing);
+}
+
+.header-custom__nav li:last-child {
+  margin-right: 0;
+}
+
+.header-custom__nav a,
+.header-custom__icons .header-custom__icon-link { /* Apply shared styles to nav and text icons */
+  text-decoration: none;
+  font-family: var(--header-nav-font-family);
+  font-size: var(--header-nav-font-size);
+  font-weight: var(--header-nav-font-weight);
+  color: var(--header-nav-link-color);
+  letter-spacing: var(--header-nav-letter-spacing);
+  padding: 5px 0; /* Add some vertical padding for easier clicking, adjust as needed */
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.header-custom__nav a:hover,
+.header-custom__icons .header-custom__icon-link:hover {
+  color: var(--header-nav-link-hover-color);
+  text-decoration: underline; /* Simple underline on hover */
+}
+
+/* Right-side Icons & Links */
+.header-custom__icons {
+  flex-grow: 0;
+  flex-shrink: 0; /* Prevent icons section from shrinking */
+  display: flex;
+  align-items: center;
+}
+
+.header-custom__icons > * { /* Direct children: search icon link, login link, order link */
+  margin-left: var(--header-icon-spacing);
+}
+.header-custom__icons > *:first-child {
+    margin-left: 0; /* No margin for the first icon in the group */
+}
+
+/* Style for the Search icon SVG */
+.header-custom__icons .header-custom__search-icon-link svg {
+  width: var(--header-icon-size);
+  height: var(--header-icon-size);
+  fill: var(--header-nav-link-color); /* Use fill for SVG color */
+  transition: fill 0.3s ease;
+}
+
+.header-custom__icons .header-custom__search-icon-link:hover svg {
+  fill: var(--header-nav-link-hover-color);
+}
+
+
+/* Basic responsiveness */
+@media (max-width: 768px) { /* Increased breakpoint for earlier stacking */
+  .header-custom {
+    flex-direction: column;
+    padding: calc(var(--header-padding-vertical) / 1.5) var(--header-padding-horizontal);
+  }
+
+  .header-custom__logo {
+    margin-bottom: 10px; /* Space below logo when stacked */
+  }
+
+  .header-custom__nav {
+    margin-top: 5px; /* Reduced from 10px */
+    margin-bottom: 10px; /* Space below nav when stacked */
+    order: 3; /* Move nav below logo and icons if desired, or keep default order */
+  }
+
+  .header-custom__nav ul {
+    /* Text-align center on parent and inline-block on ul handles centering */
+  }
+  .header-custom__nav li {
+    margin-right: calc(var(--header-nav-item-spacing) / 2); /* Reduce spacing on mobile */
+    margin-left: calc(var(--header-nav-item-spacing) / 2);
+  }
+   .header-custom__nav li:first-child {
+    margin-left: 0;
+  }
+  .header-custom__nav li:last-child {
+    margin-right: 0;
+  }
+
+
+  .header-custom__icons {
+    margin-top: 5px; /* Space above icons when stacked */
+    order: 2; /* Example: move icons above nav on mobile */
+  }
+  .header-custom__icons > * {
+    margin-left: calc(var(--header-icon-spacing) / 1.5); /* Reduce spacing */
+  }
+}
+
+@media (max-width: 480px) { /* Further adjustments for very small screens */
+  .header-custom__nav li {
+    margin-right: calc(var(--header-nav-item-spacing) / 3);
+    margin-left: calc(var(--header-nav-item-spacing) / 3);
+    font-size: calc(var(--header-nav-font-size) * 0.9); /* Slightly smaller font */
+  }
+  .header-custom__icons .header-custom__icon-link {
+    font-size: calc(var(--header-nav-font-size) * 0.9); /* Slightly smaller font */
+  }
+  .header-custom__icons > * {
+    margin-left: calc(var(--header-icon-spacing) / 2); /* Further reduce spacing */
+  }
+}
